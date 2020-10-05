@@ -5,54 +5,71 @@ using UnityEngine;
 public class player : MonoBehaviour
 {
 
-    private Rigidbody2D rigid;
-    private float horizontalInput;
-    [SerializeField] private float jumpForce = 0.5f;
-    [SerializeField] private bool resetJump = false;
+    private Rigidbody2D _rigid;
 
+    [SerializeField]
 
-    // Start is called before the first frame update
+    private float _jumpForce = 5.0f;
+
+    private bool _resetJump = false;
+
     void Start()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        _rigid = GetComponent<Rigidbody2D>();
     }
 
+
+
     // Update is called once per frame
+
     void Update()
     {
         Movement();
+   
     }
+
+
 
     void Movement()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        rigid.velocity = new Vector2(horizontalInput, rigid.velocity.y);
+        float move = Input.GetAxisRaw("Horizontal");
 
-        if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
         {
-            Debug.Log("Jump");
-            rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
+            Debug.Log("Jump!");
+            _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             StartCoroutine(ResetJumpRoutine());
         }
 
+        _rigid.velocity = new Vector2(move, _rigid.velocity.y);
+
+
     }
+
+
 
     bool IsGrounded()
     {
-        RaycastHit2D hitInfo =  Physics2D.Raycast(transform.position, Vector2.down, 0.7f, 1 << 8);
-        if(hitInfo.collider != null)
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, 1 << 8);
+        Debug.DrawRay(transform.position, Vector2.down, Color.green);
+        if (hitInfo.collider != null)
         {
-            if (!resetJump) return true;
+            if (_resetJump == false)
+                return true;
         }
-
         return false;
     }
 
+
+
     IEnumerator ResetJumpRoutine()
     {
-        resetJump = true;
+        _resetJump = true;
         yield return new WaitForSeconds(0.1f);
-        resetJump = false;
+        _resetJump = false;
     }
 
 }
+
+
