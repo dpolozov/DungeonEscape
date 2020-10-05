@@ -6,16 +6,17 @@ public class player : MonoBehaviour
 {
 
     private Rigidbody2D _rigid;
-
-    [SerializeField]
-
-    private float _jumpForce = 5.0f;
-
+    [SerializeField] private float _jumpForce = 5.0f;
+    [SerializeField] private float _speed = 2.5f;
     private bool _resetJump = false;
+    private bool grounded = false;
+
+    private PlayerAnimation anim;
 
     void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
+        anim = GetComponent<PlayerAnimation>();
     }
 
 
@@ -33,17 +34,18 @@ public class player : MonoBehaviour
     void Movement()
     {
         float move = Input.GetAxisRaw("Horizontal");
-
+        grounded = IsGrounded();
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
         {
-            Debug.Log("Jump!");
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             StartCoroutine(ResetJumpRoutine());
+            anim.Jump(true);
         }
 
-        _rigid.velocity = new Vector2(move, _rigid.velocity.y);
+        _rigid.velocity = new Vector2(move * _speed, _rigid.velocity.y);
 
+        anim.Move(move);
 
     }
 
@@ -56,7 +58,11 @@ public class player : MonoBehaviour
         if (hitInfo.collider != null)
         {
             if (_resetJump == false)
+            {
+                Debug.Log("Grounded");
+                anim.Jump(false);
                 return true;
+            }
         }
         return false;
     }
