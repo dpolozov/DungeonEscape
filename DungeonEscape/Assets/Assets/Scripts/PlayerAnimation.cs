@@ -6,20 +6,23 @@ public class PlayerAnimation : MonoBehaviour
 {
     private Animator anim;
     private SpriteRenderer spriteRenderer;
+    private Animator swordAnimation;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        swordAnimation = transform.GetChild(1).GetComponent<Animator>();
     }
 
     public void Move(float move)
     {
-        if(move < 0 )
+        if (move < 0)
         {
             spriteRenderer.flipX = true;
-        } else
+        }
+        else
         {
             spriteRenderer.flipX = false;
         }
@@ -29,5 +32,11 @@ public class PlayerAnimation : MonoBehaviour
     public void Jump(bool jumping)
     {
         anim.SetBool("jumping", jumping);
+    }
+
+    public void Attack()
+    {
+        anim.SetTrigger("Attack");
+        swordAnimation.SetTrigger("SwordAnimation");
     }
 }
