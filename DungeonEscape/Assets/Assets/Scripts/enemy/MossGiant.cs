@@ -13,10 +13,23 @@ public class MossGiant : Enemy
     {
         anim = GetComponentInChildren<Animator>();
         mossSprite = GetComponentInChildren<SpriteRenderer>();
-        speed = 1;
+        currentTarget = pointB.position;
+
     }
 
     public override void Update()
+    {
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            return;
+        }
+
+        Movement();
+
+    }
+
+    void Movement()
     {
         if (currentTarget == pointA.position)
         {
@@ -26,16 +39,6 @@ public class MossGiant : Enemy
         {
             mossSprite.flipX = false;
         }
-
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-            return;
-
-        Movement();
-
-    }
-
-    void Movement()
-    {      
 
         if (transform.position == pointA.position)
         {
