@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spider : Enemy
+public class Spider : Enemy, IDamageable
 {
+    public int Health { set; get; }
 
+    public void Damage()
+    {
+
+    }
 }
