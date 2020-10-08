@@ -9,15 +9,23 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int gems;
     [SerializeField] protected Transform pointA, pointB;
 
-    protected Vector3 currentTarget;
+    protected Vector3 currentTarget, lastTarget;
     protected Animator anim;
     protected SpriteRenderer sprite;
+
+    protected player player;
+    protected float distance;
+    [SerializeField] protected bool inCombat = false;
+    protected Vector3 direction;
+
+
 
     public virtual void Init()
     {
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         currentTarget = pointB.position;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<player>();
     }
 
     private void Start()
@@ -27,7 +35,9 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Update()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") ||
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Hit") ||
+            anim.GetCurrentAnimatorStateInfo(0).IsName("Attack") )
         {
             return;
         }
@@ -38,7 +48,32 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Movement()
     {
-        if (currentTarget == pointA.position)
+
+        distance = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distance < 3) inCombat = true;
+
+        if (inCombat)
+        {
+           
+            currentTarget.x = player.transform.position.x;
+
+            if(distance < 0.5)
+            {
+                anim.SetTrigger("Attack");
+            }
+        }
+
+        if(distance > 3 && inCombat)
+        {
+            inCombat = false;
+            currentTarget = pointA.position;
+        }
+
+        //Debug.Log(currentTarget);
+        direction = transform.position - currentTarget;
+
+        if (direction.x > 0)
         {
             sprite.flipX = true;
         }

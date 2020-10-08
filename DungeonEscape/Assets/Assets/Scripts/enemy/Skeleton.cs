@@ -16,7 +16,7 @@ public class Skeleton : Enemy, IDamageable
     {
         Debug.Log("Damage");
         Health--;
-
+        anim.SetTrigger("Hit");
         if (Health < 0)
         {
             Destroy(this.gameObject);
