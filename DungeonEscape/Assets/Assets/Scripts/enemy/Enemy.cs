@@ -51,7 +51,7 @@ public abstract class Enemy : MonoBehaviour
 
         distance = Vector3.Distance(transform.position, player.transform.position);
 
-        if (distance < 3) inCombat = true;
+        if (distance < 2.5) inCombat = true;
 
         if (inCombat)
         {
@@ -64,7 +64,7 @@ public abstract class Enemy : MonoBehaviour
             }
         }
 
-        if(distance > 3 && inCombat)
+        if(distance > 2.5 && inCombat)
         {
             inCombat = false;
             currentTarget = pointA.position;

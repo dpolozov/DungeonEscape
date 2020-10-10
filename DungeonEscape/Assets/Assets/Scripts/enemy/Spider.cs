@@ -6,8 +6,15 @@ public class Spider : Enemy, IDamageable
 {
     public int Health { set; get; }
 
+    public GameObject acidEffectPrefab;
+
     public void Damage()
     {
 
+    }
+
+    public void Attack()
+    {
+        Instantiate(acidEffectPrefab, transform.position, Quaternion.identity);
     }
 }

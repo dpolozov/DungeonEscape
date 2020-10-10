@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player : MonoBehaviour
+public class player : MonoBehaviour, IDamageable
 {
 
     private Rigidbody2D _rigid;
-    [SerializeField] private float _jumpForce = 5.0f;
+    [SerializeField] private float _jumpForce = 6.0f;
     [SerializeField] private float _speed = 2.5f;
     private bool _resetJump = false;
     private bool grounded = false;
 
     private PlayerAnimation anim;
+
+    public int Health { get ; set; }
 
     void Start()
     {
@@ -81,6 +83,10 @@ public class player : MonoBehaviour
         _resetJump = false;
     }
 
+    public void Damage()
+    {
+        Debug.Log("player damage called");
+    }
 }
 
 
