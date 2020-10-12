@@ -22,6 +22,8 @@ public class Spider : Enemy, IDamageable
             if (Health < 1)
             {
                 anim.SetTrigger("Death");
+                GameObject diamond = Instantiate(diamondPrefab, transform.position, Quaternion.identity) as GameObject;
+                diamond.GetComponent<Diamond>().gems = base.gems;
                 isDead = true;
             }
         }
