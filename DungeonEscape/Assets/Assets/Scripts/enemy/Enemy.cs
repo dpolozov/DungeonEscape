@@ -17,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
     protected float distance;
     [SerializeField] protected bool inCombat = false;
     protected Vector3 direction;
+    protected bool isDead = false;
 
 
 
@@ -42,7 +43,7 @@ public abstract class Enemy : MonoBehaviour
             return;
         }
 
-        Movement();
+        if(!isDead) Movement();
 
     }
 

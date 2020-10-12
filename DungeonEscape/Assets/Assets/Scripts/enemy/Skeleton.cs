@@ -14,12 +14,16 @@ public class Skeleton : Enemy, IDamageable
 
     public void Damage()
     {
-        //Debug.Log("Damage");
-        Health--;
-        anim.SetTrigger("Hit");
-        if (Health < 0)
+        if (!isDead)
         {
-            Destroy(this.gameObject);
+            //Debug.Log("Damage");
+            Health--;
+            anim.SetTrigger("Hit");
+            if (Health < 0)
+            {
+                anim.SetTrigger("Death");
+                isDead = true;
+            }
         }
     }
 }

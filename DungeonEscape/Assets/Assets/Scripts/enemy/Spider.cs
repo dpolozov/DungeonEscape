@@ -8,9 +8,23 @@ public class Spider : Enemy, IDamageable
 
     public GameObject acidEffectPrefab;
 
+    public override void Init()
+    {
+        base.Init();
+        Health = base.health;
+    }
+
     public void Damage()
     {
-
+        if (!isDead)
+        {
+            Health--;
+            if (Health < 1)
+            {
+                anim.SetTrigger("Death");
+                isDead = true;
+            }
+        }
     }
 
     public void Attack()
